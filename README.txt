@@ -1,0 +1,1 @@
+Upload every file in this folder to the root of your GitHub repository. Then turn on GitHub Pages from the main branch. These files are already converted to plain static HTML, CSS, and JS for GitHub Pages.
