@@ -1,7 +1,277 @@
-{
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+import { Link } from 'react-router-dom';
+import { programs } from '../../../mocks/programs';
+
+interface CompareRowProps {
+  label: string;
+  secplus: string | string[];
+  cysa: string | string[];
+}
+
+function CompareRow({ label, secplus, cysa }: CompareRowProps) {
+  const renderVal = (val: string | string[]) =>
+    Array.isArray(val) ? (
+      <ul className="space-y-1.5">
+        {val.map((v) => (
+          <li key={v} className="flex items-start gap-2">
+            <i className="ri-checkbox-circle-line text-gold text-xs mt-0.5 shrink-0" />
+            <span className="font-sans text-ice/75 text-sm">{v}</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <span className="font-sans text-ice/80 text-sm">{val}</span>
+    );
+
+  return (
+    <div className="grid grid-cols-3 gap-0 border-b border-gold/10">
+      <div className="p-4 bg-navy-950/40">
+        <span className="font-mono text-steel text-xs uppercase tracking-wide">{label}</span>
+      </div>
+      <div className="p-4 bg-navy-800/20 border-x border-gold/10">{renderVal(secplus)}</div>
+      <div className="p-4">{renderVal(cysa)}</div>
+    </div>
+  );
+}
+
+const sp = programs[0];
+const cy = programs[1];
+
+const rows: CompareRowProps[] = [
+  { label: 'Certification Target', secplus: sp.certification, cysa: cy.certification },
+  { label: 'Duration', secplus: sp.duration, cysa: cy.duration },
+  { label: 'Format', secplus: sp.format, cysa: cy.format },
+  { label: 'Investment', secplus: ['$6,500 tuition + $150 application fee + $75 books/materials', 'Program total: $6,725'], cysa: ['$4,500 tuition + $150 application fee + $75 books/materials', 'Program total: $4,725'] },
+  { label: 'Program Highlights', secplus: sp.highlights, cysa: cy.highlights },
+  { label: 'Target Roles', secplus: sp.targetRoles, cysa: cy.targetRoles },
+];
+
+export default function ProgramComparison() {
+  return (
+    <section className="py-20 bg-navy-950">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Side-by-side header */}
+        <div className="text-center mb-14 reveal-element">
+          <p className="font-mono text-gold text-xs tracking-widest mb-3">SIDE BY SIDE</p>
+          <h2 className="font-display text-4xl lg:text-5xl font-bold text-ice">Program Comparison</h2>
+        </div>
+
+        {/* Table */}
+        <div className="glass-card gold-border-glow overflow-hidden reveal-element">
+          {/* Sticky headers */}
+          <div className="grid grid-cols-3 gap-0 border-b-2 border-gold/20">
+            <div className="p-5 bg-navy-950/80">
+              <span className="font-mono text-steel text-xs tracking-widest">COMPARE</span>
+            </div>
+            {[sp, cy].map((p) => (
+              <div key={p.id} className="p-5 bg-gold/3 border-l border-gold/10">
+                <span className="font-mono text-gold text-xs block mb-1">
+                  {p.id === 'secplus' ? 'PROGRAM 01' : 'PROGRAM 02'}
+                </span>
+                <h3 className="font-display text-lg font-bold text-ice leading-snug">{p.title}</h3>
+                <span className="font-mono text-steel text-xs">{p.certification}</span>
+                <div className="mt-3">
+                  <Link
+                    to={p.id === 'secplus' ? '/programs/security-plus' : '/programs/cybersecurity-operations-analyst'}
+                    className="inline-flex items-center gap-1.5 font-mono text-gold text-xs font-semibold hover:gap-2.5 transition-all duration-200 cursor-pointer whitespace-nowrap"
+                  >
+                    Explore Program <i className="ri-arrow-right-line text-xs" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {rows.map((row) => (
+            <CompareRow key={row.label} {...row} />
+          ))}
+
+          {/* CTA row */}
+          <div className="grid grid-cols-3 gap-0 border-t border-gold/10">
+            <div className="p-5 bg-navy-950/40 flex items-center">
+              <span className="font-mono text-steel text-xs uppercase tracking-wide">Ready?</span>
+            </div>
+            {[sp, cy].map((p) => (
+              <div key={p.id} className="p-4 border-l border-gold/10 flex flex-col gap-2">
+                <Link
+                  to={p.id === 'secplus' ? '/programs/security-plus' : '/programs/cybersecurity-operations-analyst'}
+                  className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                >
+                  Explore {p.id === 'secplus' ? 'Security+' : 'Cyber Ops'}
+                  <i className="ri-arrow-right-line text-sm" />
+                </Link>
+                <Link
+                  to="/admissions"
+                  className="btn-gold w-full py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap"
+                >
+                  Apply Now <i className="ri-arrow-right-up-line text-sm" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Program deep dive cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-16">
+          {/* Security+ Domains */}
+          <div className="glass-card gold-border-glow p-7 reveal-element flex flex-col">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <i className="ri-bar-chart-line text-gold text-xl" />
+              </div>
+              <div>
+                <p className="font-mono text-gold text-xs tracking-wider">COMPTIA SECURITY+</p>
+                <h3 className="font-display text-lg font-bold text-ice">Exam Domain Breakdown</h3>
+              </div>
+            </div>
+            {sp.domains?.map((d) => (
+              <div key={d.name} className="mb-4">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-sans text-ice/80 text-sm">{d.name}</span>
+                  <span className="font-mono text-gold text-xs">{d.weight}%</span>
+                </div>
+                <div className="w-full h-1.5 bg-navy-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-gold to-gold-light rounded-full transition-all duration-1000"
+                    style={{ width: `${d.weight * 3.5}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+            <div className="mt-6 pt-5 border-t border-gold/10">
+              <Link
+                to="/programs/security-plus"
+                className="btn-gold w-full py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+              >
+                Explore Security+ Program <i className="ri-arrow-right-line" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Blue Team Level 1 Modules */}
+          <div className="glass-card gold-border-glow p-7 reveal-element flex flex-col" style={{ transitionDelay: '150ms' }}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 flex items-center justify-center">
+                <i className="ri-list-check-3 text-gold text-xl" />
+              </div>
+              <div>
+                <p className="font-mono text-gold text-xs tracking-wider">BTL1 &amp; CCNA CYBERSECURITY</p>
+                <h3 className="font-display text-lg font-bold text-ice">Curriculum Modules</h3>
+              </div>
+            </div>
+            <div className="space-y-2 flex-1">
+              {cy.modules?.map((m) => (
+                <div key={m.num} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-gold/5 transition-colors duration-200">
+                  <span className="font-mono text-gold text-xs mt-0.5 shrink-0">{m.num}</span>
+                  <div className="min-w-0">
+                    <p className="font-sans text-ice/90 text-sm font-medium">{m.title}</p>
+                    <p className="font-mono text-steel text-xs mt-0.5 truncate">{m.topics}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 pt-5 border-t border-gold/10">
+              <Link
+                to="/programs/cybersecurity-operations-analyst"
+                className="btn-gold w-full py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+              >
+                Explore Cyber Ops Program <i className="ri-arrow-right-line" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Portfolio deliverables strip */}
+        <div className="mt-16 reveal-element">
+          <div className="text-center mb-8">
+            <p className="font-mono text-gold text-xs tracking-widest mb-3">WHAT YOU&apos;LL GRADUATE WITH</p>
+            <h3 className="font-display text-3xl lg:text-4xl font-bold text-ice leading-tight">
+              Where Competitors Hand You a Certificate,<br />
+              <span className="gold-text">We Hand You Evidence.</span>
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { icon: 'ri-file-text-line', title: 'Investigation Reports', desc: 'Written incident analysis from detection through containment', tag: 'Cyber Ops Track' },
+              { icon: 'ri-code-s-slash-line', title: '3 Detection Rules', desc: 'Original Sigma rules mapped across three MITRE ATT&CK tactics', tag: 'Cyber Ops Track' },
+              { icon: 'ri-flow-chart', title: 'SOAR Workflow', desc: 'Working n8n automation pipeline connecting Splunk, TheHive, and more', tag: 'Cyber Ops Track' },
+              { icon: 'ri-archive-drawer-line', title: 'Case Management Evidence', desc: 'Full case lifecycle documented in TheHive — exportable and reviewable', tag: 'Cyber Ops Track' },
+            ].map((item, i) => (
+              <div
+                key={item.title}
+                className="glass-card gold-border-glow p-6 rounded-2xl flex flex-col gap-3 reveal-element"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="w-11 h-11 flex items-center justify-center rounded-xl border border-gold/30 bg-gold/8">
+                  <i className={`${item.icon} text-gold text-xl`} />
+                </div>
+                <div>
+                  <span className="font-mono text-gold/50 text-xs">{item.tag}</span>
+                  <h4 className="font-display font-bold text-ice text-base mt-0.5">{item.title}</h4>
+                </div>
+                <p className="font-sans text-steel text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Investment breakdown */}
+        <div className="mt-16 reveal-element">
+          <h3 className="font-display text-3xl font-bold text-ice text-center mb-8">Tuition &amp; Fees</h3>
+          <div className="glass-card gold-border-glow overflow-hidden max-w-4xl mx-auto">
+            <div className="grid grid-cols-4 bg-gold/10 border-b border-gold/20">
+              {['Item', 'Cybersecurity Practitioner', 'Cyber Ops Analyst', 'Note'].map((h) => (
+                <div key={h} className="p-4">
+                  <span className="font-mono text-gold text-xs font-semibold uppercase tracking-wider">{h}</span>
+                </div>
+              ))}
+            </div>
+            {[
+              { item: 'Tuition', sp: '$6,500', cy: '$4,500', note: 'Per cohort', total: false },
+              { item: 'Application Fee', sp: '$150', cy: '$150', note: 'Non-refundable', total: false },
+              { item: 'Books / Materials', sp: '$75', cy: '$75', note: 'Billed at enrollment', total: false },
+              { item: 'Program Total', sp: '$6,725', cy: '$4,725', note: '', total: true },
+              { item: 'Optional Certification Vouchers', sp: 'CompTIA Security+ — $404', cy: ['Blue Team Level 1 (BTL1) — $400', 'CCNA Cybersecurity (200-201) — $300'], note: 'Purchased separately', total: false },
+              { item: 'Exam Fees', sp: 'Not included', cy: 'Not included', note: 'Student responsibility', total: false },
+            ].map((row, i) => {
+              const cellClass = (val: string, total: boolean) =>
+                `font-mono text-sm ${total ? 'text-gold font-bold' : val === 'Not included' ? 'text-red-400' : 'text-ice/70'}`;
+              const renderCells = (val: string | string[], total: boolean) =>
+                Array.isArray(val) ? (
+                  <ul className="space-y-1">
+                    {val.map((v) => (
+                      <li key={v} className={cellClass(v, total)}>{v}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <span className={cellClass(val, total)}>{val}</span>
+                );
+              return (
+                <div key={row.item} className={`grid grid-cols-4 border-b border-gold/10 last:border-b-0 ${
+                  row.total ? 'bg-gold/5' : i % 2 === 0 ? 'bg-navy-800/20' : ''
+                }`}>
+                  <div className="p-4"><span className={`font-sans text-sm ${row.total ? 'text-ice font-semibold' : 'text-ice/80'}`}>{row.item}</span></div>
+                  <div className="p-4">{renderCells(row.sp, row.total)}</div>
+                  <div className="p-4">{renderCells(row.cy, row.total)}</div>
+                  <div className="p-4"><span className="font-mono text-steel text-xs">{row.note}</span></div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="font-mono text-steel/50 text-xs text-center mt-4">
+            Exam fees not included in tuition unless explicitly stated in writing at time of enrollment.
+          </p>
+        </div>
+
+        {/* Enrollment CTA */}
+        <div className="text-center mt-16 reveal-element">
+          <Link
+            to="/admissions"
+            className="btn-gold px-10 py-4 rounded-full text-base font-semibold inline-flex items-center gap-2 cursor-pointer whitespace-nowrap"
+          >
+            Begin Your Application <i className="ri-arrow-right-up-line" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
 }

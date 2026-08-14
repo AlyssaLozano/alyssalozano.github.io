@@ -1,52 +1,105 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23050b1a'/><path d='M16 3 L25 7 L25 17 C25 23 16 28 16 28 C16 28 7 23 7 17 L7 7 Z' fill='%23d4af37' fill-opacity='0.15' stroke='%23d4af37' stroke-width='1.5'/><text x='16' y='21' text-anchor='middle' font-family='Georgia%2C serif' font-size='12' font-weight='700' fill='%23d4af37'>A</text></svg>" />
-    <meta name="theme-color" content="#050b1a" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Acumen Career Academy | Cybersecurity Training Augusta Georgia | Security+ & CySA+ Programs</title>
-    <meta name="description" content="Acumen Career Academy is a GNPEC-licensed cybersecurity training institution in Augusta, Georgia. CompTIA Security+ and CySA+ certification readiness programs. Train for the frontlines of cybersecurity near Fort Eisenhower (Formerly Fort Gordon)." />
-    <meta name="keywords" content="cybersecurity training Augusta Georgia, CompTIA Security+, CySA+ certification, SOC analyst training, GNPEC licensed cybersecurity school" />
-    <link rel="canonical" href="https://acumencareeracademy.com/" />
-    <meta name="last-modified" content="2026-03-19" />
-    <meta name="geo.position" content="33.4735;-82.0105" />
-    <meta name="geo.region" content="US-GA" />
-    <meta name="geo.placename" content="Augusta, Georgia" />
-    <meta property="og:title" content="Acumen Career Academy | Cybersecurity Training Augusta, Georgia" />
-    <meta property="og:description" content="GNPEC-licensed cybersecurity training near Fort Eisenhower. Security+ and CySA+ certification readiness programs built by a former NSA professional. Train for the frontlines." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=630&fit=crop&q=85" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Acumen Career Academy — Cybersecurity Training in Augusta, Georgia" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://acumencareeracademy.com/" />
-    <meta property="og:site_name" content="Acumen Career Academy" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Acumen Career Academy | Cybersecurity Training Augusta, Georgia" />
-    <meta name="twitter:description" content="GNPEC-licensed cybersecurity training near Fort Eisenhower. Security+ and CySA+ programs. Train for the frontlines of cybersecurity." />
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=630&fit=crop&q=85" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
-      "name": "Acumen Career Academy",
-      "description": "GNPEC-licensed cybersecurity training institution offering CompTIA Security+ and CySA+ certification readiness programs",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Augusta",
-        "addressRegion": "GA",
-        "addressCountry": "US"
-      },
-      "url": "https://acumencareeracademy.com"
-    }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+import { Link } from 'react-router-dom';
+import { programs } from '../../../mocks/programs';
+
+export default function ProgramsOverview() {
+  return (
+    <section className="py-24 bg-navy-900 grid-overlay" id="programs">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
+          <div className="reveal-element">
+            <p className="font-mono text-gold text-xs tracking-widest mb-3">OUR PROGRAMS</p>
+            <h2 className="font-display text-4xl lg:text-5xl font-bold text-ice">
+              Two Paths.<br />One Mission.
+            </h2>
+          </div>
+          <p className="font-sans text-steel text-base leading-relaxed max-w-lg reveal-element">
+            Whether you&apos;re starting your security career or leveling up to SOC operations, 
+            Acumen has a program built for where you want to go — and what employers actually need.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {programs.map((program, i) => (
+            <div
+              key={program.id}
+              className="glass-card program-card-hover gold-border-glow overflow-hidden reveal-element"
+              style={{ transitionDelay: `${i * 150}ms` }}
+            >
+              {/* Top accent line */}
+              <div className="h-0.5 bg-gradient-to-r from-gold via-gold-light to-transparent" />
+
+              <div className="p-8">
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 bg-gold/8 border border-gold/20 rounded-full px-3 py-1.5 mb-6">
+                  <i className="ri-time-line text-gold text-xs" />
+                  <span className="font-mono text-gold text-xs">{program.badge}</span>
+                </div>
+
+                <h3 className="font-display text-2xl font-bold text-ice mb-1">{program.title}</h3>
+                <p className="font-mono text-gold text-sm mb-5">{program.certification}</p>
+                <p className="font-sans text-steel text-sm leading-relaxed mb-7">{program.description}</p>
+
+                {/* Highlights */}
+                <div className="space-y-2.5 mb-7">
+                  {program.highlights.map((h) => (
+                    <div key={h} className="flex items-start gap-3">
+                      <i className="ri-checkbox-circle-line text-gold text-sm mt-0.5 shrink-0" />
+                      <span className="font-sans text-ice/75 text-sm">{h}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Target roles */}
+                <div className="mb-8">
+                  <p className="font-mono text-steel text-xs tracking-widest mb-3">TARGET ROLES</p>
+                  <div className="flex flex-wrap gap-2">
+                    {program.targetRoles.map((role) => (
+                      <span
+                        key={role}
+                        className="font-mono text-xs bg-navy-700 border border-gold/20 text-gold px-3 py-1.5 rounded-lg"
+                      >
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Pricing */}
+                <div className="mb-6 p-4 rounded-lg bg-navy-800/50 border border-gold/10">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-mono text-steel text-xs">Total Program Cost</span>
+                    <div className="text-right">
+                      <span className="font-display text-gold font-bold text-lg">{program.pricing}</span>
+                      <p className="font-mono text-steel text-xs mt-0.5">Tuition + $150 application + $75 books/materials</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  to={program.id === 'secplus' ? '/programs/security-plus' : '/programs/cybersecurity-operations-analyst'}
+                  className="btn-gold w-full py-3.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+                >
+                  View Program Details <i className="ri-arrow-right-line" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Compare link */}
+        <div className="text-center mt-10 reveal-element">
+          <Link
+            to="/programs"
+            className="btn-outline-gold px-8 py-3.5 rounded-full text-sm inline-flex items-center gap-2 cursor-pointer"
+          >
+            <i className="ri-scales-3-line" />
+            Compare Both Programs Side by Side
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -1,83 +1,45 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import { resolve } from "node:path";
-import AutoImport from "unplugin-auto-import/vite";
+import { Link } from 'react-router-dom';
 
-const base = process.env.BASE_PATH || "/";
-const isPreview = process.env.IS_PREVIEW ? true : false;
-// https://vite.dev/config/
-export default defineConfig({
-  define: {
-    __BASE_PATH__: JSON.stringify(base),
-    __IS_PREVIEW__: JSON.stringify(isPreview),
-    __READDY_PROJECT_ID__: JSON.stringify(process.env.PROJECT_ID || ""),
-    __READDY_VERSION_ID__: JSON.stringify(process.env.VERSION_ID || ""),
-    __READDY_AI_DOMAIN__: JSON.stringify(process.env.READDY_AI_DOMAIN || ""),
-  },
-  plugins: [
-    react(),
-    AutoImport({
-      imports: [
-        {
-          react: [
-            "React",
-            "useState",
-            "useEffect",
-            "useContext",
-            "useReducer",
-            "useCallback",
-            "useMemo",
-            "useRef",
-            "useImperativeHandle",
-            "useLayoutEffect",
-            "useDebugValue",
-            "useDeferredValue",
-            "useId",
-            "useInsertionEffect",
-            "useSyncExternalStore",
-            "useTransition",
-            "startTransition",
-            "lazy",
-            "memo",
-            "forwardRef",
-            "createContext",
-            "createElement",
-            "cloneElement",
-            "isValidElement",
-          ],
-        },
-        {
-          "react-router-dom": [
-            "useNavigate",
-            "useLocation",
-            "useParams",
-            "useSearchParams",
-            "Link",
-            "NavLink",
-            "Navigate",
-            "Outlet",
-          ],
-        },
-        // React i18n
-        {
-          "react-i18next": ["useTranslation", "Trans"],
-        },
-      ],
-      dts: true,
-    }),
-  ],
-  base,
-  build: {
-    sourcemap: true,
-    outDir: "out",
-  },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "./src"),
-    },
-  },
-  server: {
-    port: 3000,
-    host: "0.0.0.0",
-  },
-});
+export default function ProgramsHero() {
+  return (
+    <section className="relative min-h-[50vh] flex items-end pb-16 overflow-hidden bg-navy-900 grid-overlay pt-28">
+      {/* Blobs */}
+      <div className="absolute top-1/3 left-1/3 w-72 h-72 bg-gold/5 rounded-full blur-3xl animate-blob pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-56 h-56 bg-gold/4 rounded-full blur-3xl animate-blob-delay pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-6 w-full">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 font-mono text-steel text-xs mb-6">
+          <Link to="/" className="hover:text-gold transition-colors cursor-pointer">Home</Link>
+          <i className="ri-arrow-right-s-line text-steel/40" />
+          <span className="text-gold">Programs</span>
+        </div>
+
+        <p className="font-mono text-gold text-xs tracking-widest mb-4 reveal-element">PROGRAM CATALOG</p>
+        <h1 className="font-display text-5xl lg:text-6xl font-bold text-ice mb-5 reveal-element leading-tight">
+          Two Programs.<br />
+          <span className="gold-text">From $4,725.</span>
+        </h1>
+        <p className="font-sans text-steel text-lg max-w-2xl leading-relaxed mb-8 reveal-element">
+          Both programs are live, instructor-led, and built around real SOC tools from day one.
+          You graduate with a verifiable portfolio — not just a certificate. A fraction of the cost
+          of national bootcamps, in a fraction of the time.
+        </p>
+
+        <div className="flex flex-wrap gap-3 reveal-element">
+          {[
+            { icon: 'ri-live-line', text: 'Online Synchronous' },
+            { icon: 'ri-time-line', text: '8 and 12 Week Formats' },
+            { icon: 'ri-shield-check-line', text: 'GNPEC Authorized' },
+            { icon: 'ri-group-line', text: 'Small Cohorts' },
+          ].map((t) => (
+            <div key={t.text} className="inline-flex items-center gap-2 glass-card border border-gold/20 px-3 py-2 rounded-full">
+              <i className={`${t.icon} text-gold text-xs`} />
+              <span className="font-mono text-ice/80 text-xs">{t.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

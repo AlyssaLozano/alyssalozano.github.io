@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Acumen Career Academy</title>
+    <script>
+      // GitHub Pages SPA routing fix
+      // Redirects all 404s back to index.html with the path encoded as a query param
+      var l = window.location;
+      l.replace(
+        l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          l.pathname
+            .split("/")
+            .slice(0, 1)
+            .join("/") +
+          "/?p=/" +
+          l.pathname
+            .slice(1)
+            .replace(/&/g, "~and~") +
+          (l.search
+            ? "&q=" + l.search.slice(1).replace(/&/g, "~and~")
+            : "") +
+          l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
